@@ -8,7 +8,7 @@ public class InventoryManager : MonoBehaviour
     private List<ItemData> items = new List<ItemData>(); // 인벤토리 아이템 리스트
 
     /// <summary>
-    /// 싱글톤 인스턴스 설정 및 테스트 아이템 추가
+    /// 싱글톤 인스턴스 설정
     /// </summary>
     private void Awake()
     {
