@@ -10,7 +10,7 @@ public class UISlot : MonoBehaviour
     public Image icon;                // 아이템 아이콘 이미지
     public TextMeshProUGUI nameText;  // 아이템 이름 텍스트
     public TextMeshProUGUI equipText;  // 아이템 장착확인 텍스트
-    private Outline outline;          // 슬롯 외곽선 강조 컴포넌트
+    public Outline outline;          // 슬롯 외곽선 강조 컴포넌트
 
     public int index;                 // 슬롯 인덱스
     public bool equipped;             // 아이템 장착 여부
@@ -137,7 +137,14 @@ public class UISlot : MonoBehaviour
 
         // 선택된 슬롯 인덱스를 인벤토리에 전달
         inventory.selectedIndex = this.index;
+
+        // 장비 변경 후 스탯 갱신
+        if (UIStatus.Instance != null)
+        {
+            // 현재 캐릭터는 어디 저장되어 있든 간에 불러와야 합니다
+            // 예시로 GameManager에서 불러오는 식:
+            Character currentChar = GameManager.Instance.Player;
+            UIStatus.Instance.UpdateStatTexts(currentChar);
+        }
     }
-
-
 }

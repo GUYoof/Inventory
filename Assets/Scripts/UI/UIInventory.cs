@@ -60,25 +60,44 @@ public class UIInventory : MonoBehaviour
     /// </summary>
     public void InitInventoryUI()
     {
-        // 예시용 가짜 인벤토리 목록
-        List<ItemData> inventoryItems = InventoryManager.Instance.GetItems();
+        // 장착된 아이템 임시 저장
+        Dictionary<ItemType, ItemData> equippedItems = new Dictionary<ItemType, ItemData>();
+        foreach (var slot in slotList)
+        {
+            if (slot.item != null && slot.equipped)
+            {
+                equippedItems[slot.item.type] = slot.item;
+            }
+        }
 
         // 기존 슬롯 제거
         foreach (Transform child in slotParent)
         {
-            Destroy(child.gameObject); // 기존 슬롯 제거
+            Destroy(child.gameObject);
         }
 
         slotList.Clear(); // 슬롯 리스트 초기화
 
-        // 새 슬롯 생성 및 UI 갱신
-        System.Collections.IList list = inventoryItems;
-        for (int i = 0; i < list.Count; i++)
+        // 새 슬롯 생성
+        List<ItemData> inventoryItems = InventoryManager.Instance.GetItems();
+        for (int i = 0; i < inventoryItems.Count; i++)
         {
-            ItemData item = (ItemData)list[i];
-            UISlot slot = Instantiate(slotPrefab, slotParent); // 슬롯 프리팹 인스턴스화
-            slot.Set(item);                                    // 슬롯에 아이템 정보 설정
-            slotList.Add(slot);                                // 리스트에 추가
+            ItemData item = inventoryItems[i];
+            UISlot slot = Instantiate(slotPrefab, slotParent);
+            slot.index = i;
+            slot.Set(item);
+
+            // 복원: 동일 타입의 아이템이 장착 중이었다면
+            if (equippedItems.TryGetValue(item.type, out var equippedItem) && equippedItem == item)
+            {
+                slot.equipped = true;
+                slot.outline.enabled = true;
+                if (slot.equipText != null)
+                    slot.equipText.gameObject.SetActive(true);
+            }
+
+            slotList.Add(slot);
         }
     }
+
 }
