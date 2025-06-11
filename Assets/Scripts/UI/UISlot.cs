@@ -35,10 +35,6 @@ public class UISlot : MonoBehaviour
         if (inventory == null)
         {
             inventory = GetComponentInParent<UIInventory>();
-            if (inventory == null)
-            {
-                Debug.LogWarning("[UISlot] inventory 참조를 찾을 수 없습니다.");
-            }
         }
     }
 
@@ -47,11 +43,9 @@ public class UISlot : MonoBehaviour
         if (button != null)
         {
             button.onClick.AddListener(Equip);
-            Debug.Log($"[UISlot] 슬롯 {index} 버튼 클릭 이벤트 등록됨.");
         }
         else
         {
-            Debug.LogWarning($"[UISlot] 버튼 컴포넌트가 null입니다!");
         }
     }
 
@@ -72,7 +66,6 @@ public class UISlot : MonoBehaviour
 
         if (item == null)
         {
-            Debug.LogWarning("Set 호출 시 item이 null입니다!");
             Clear();
             return;
         }
@@ -83,7 +76,6 @@ public class UISlot : MonoBehaviour
         if (nameText != null)
             nameText.text = item.itemName;
         else
-            Debug.LogWarning("nameText가 null이라 이름을 설정할 수 없습니다.");
 
         if (outline != null)
             outline.enabled = equipped;
@@ -103,7 +95,6 @@ public class UISlot : MonoBehaviour
     {
         if (item == null || inventory == null)
         {
-            Debug.LogWarning("Equip 호출 시 item 또는 inventory가 null입니다.");
             return;
         }
 

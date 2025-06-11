@@ -22,12 +22,10 @@ public class AddItem : MonoBehaviour
     {
         if (itemData == null)
         {
-            Debug.LogError("itemData가 설정되지 않았습니다!");
             return;
         }
 
         InventoryManager.Instance.AddItem(itemData); // 직접 전달
-        Debug.Log($"[{itemData.itemName}] 클릭됨 → 인벤토리에 추가됨");
 
         Destroy(gameObject);
     }
